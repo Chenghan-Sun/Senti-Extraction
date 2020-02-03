@@ -8,8 +8,11 @@ class MissingValue(object):
         self.na_index_dict = {}
         self.data = pd_df
 
-    def __getitem__(self) -> Dict:
+    def __str__(self) -> Dict:
         return self.na_count_dict
+    
+    def __getitem__(self, item) -> int:
+        return self.na_count_dict[item]
 
     def missing_value_summary(self, verbose=False):
         na_list = self.data.isna().sum(axis=0)
