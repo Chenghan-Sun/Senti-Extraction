@@ -29,8 +29,7 @@ class MissingValue(object):
         if not self.na_count_dict:
             raise Exception("Please use function missing_value_summary() first.")
         for item in self.na_count_dict:
-            locate_list = []
+            self.na_index_dict[item] = set()
             for i in range(len(self.data)):
-                if not self.data.loc[i, item]:
-                    locate_list.append(i)
-            self.na_index_dict[item] = locate_list
+                if self.data.isna().loc[i, item]:
+                    self.na_index_dict[item].add(i)
