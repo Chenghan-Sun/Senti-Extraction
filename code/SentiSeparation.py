@@ -1,6 +1,4 @@
 import pandas as pd
-from typing import Dict
-import numpy as np
 
 
 class SentiSeparation(object):
