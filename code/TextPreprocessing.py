@@ -3,6 +3,7 @@
 
 import re
 from nltk.tokenize import word_tokenize
+import pandas as pd
 
 
 class TweetPreprocess(object):
@@ -19,22 +20,13 @@ class TweetPreprocess(object):
         words = word_tokenize(self.tweet)
         for word in words:
             clear_word = self._word_process(word)
-<<<<<<< HEAD
             print(clear_word)
         return clear_word
-    
-=======
-<<<<<<< HEAD
-            return clear_word
     
     def _detect_tweet(self, ):
         """ 
         """ 
         pass 
-=======
-        return clear_word
->>>>>>> 9440c1a8829efdcb304aa9d9da36daad4fc3c77c
->>>>>>> refs/remotes/origin/master
 
     def _word_process(self, word):
         """ pre-processing each word into unified type
@@ -47,18 +39,35 @@ class TweetPreprocess(object):
 
         # Remove - & '
         clear_word = re.sub(r'(-|\')', '', clear_word)
-        
-        # Remove http
-        clear_word = re.sub('http', '',clear_word)
-<<<<<<< HEAD
-=======
-        
->>>>>>> refs/remotes/origin/master
+
         # check validation of the processed word 
         word_flag = re.search(r'^[a-zA-Z][a-z0-9A-Z\._]*$', clear_word)
         if word_flag:
             return clear_word
         else:
             return None
+
         
+@EmsembleMethod
+def process_to_csv(process_df, feature, clean_csv_path):
+    """ Ensemble method for processing multiple tweets in dataframe (df)
+    Params:
+        process_df: the df to be processed
+        feature: feature (colunm) of the df, use 'text' or 'selected_text'
+        clean_csv_path: directory of written out csv file
+    Return:
+        saved_csv: csv file save to clean_csv_path
+    """
+    processed_df = process_df.copy()
+    
+    for i, tweet in enumerate(process_df[feature]):
+        if type(tweet) == str:
+            processer = TweetPreprocess(tweet)
+        else:
+            raise Exception('The tweet must be str!')
+            
+        clean_tweet = processer.process_tweet()
+        processed_df[feature][i] = clean_tweet
         
+    saved_csv = processed_df.to_csv(clean_csv_path)
+    return saved_csv
