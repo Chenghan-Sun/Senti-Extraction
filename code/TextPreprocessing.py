@@ -43,10 +43,13 @@ class TweetPreprocess(object):
         words = word_tokenize(self.tweet)
         for word in words:
             clear_word = self._word_process(word)
-            clean_tweet.append(clear_word)
-            
+            if clear_word:
+                clean_tweet.append(clear_word)
+        # Keep the cleaned words separately for further processing
+        clean_tweet_word=clean_tweet
+        # Combine the cleaned words
         clean_tweet_str = ' '.join(clean_tweet)
-        return clean_tweet_str
+        return clean_tweet_str, clean_tweet_word
     
     def _detect_tweet(self, ):
         """ 
@@ -85,9 +88,11 @@ def process_to_csv(process_df, feature, clean_csv_path):
         clean_csv_path: directory of written out csv file
     Return:
         saved_csv: csv file save to clean_csv_path
+        cleaned data used for further processng
     """
     # copy the processed df from original df 
     processed_df = process_df.copy()
+    processed_df_tbused=process_df.copy()
     
     for i, tweet in enumerate(process_df[feature]):
         if type(tweet) == str:
@@ -96,9 +101,13 @@ def process_to_csv(process_df, feature, clean_csv_path):
             raise Exception('The tweet must be str!')
             
         # call the processer class 
-        clean_tweet = processer.process_tweet()
-        processed_df[feature][i] = clean_tweet  
+        clean_tweet_both = processer.process_tweet()
+        clean_tweet=clean_tweet_both[0]
+        clean_word=clean_tweet_both[1]
+        processed_df[feature][i] = clean_tweet
+        processed_df_tbused[feature][i]=clean_word
         
-    # save as a csv file 
+    # save as a csv file
+    
     processed_df.to_csv(clean_csv_path)
-    return processed_df
+    return processed_df_tbused
