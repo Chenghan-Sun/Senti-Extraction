@@ -48,7 +48,6 @@ class TweetPreprocess(object):
             return None
 
         
-@EmsembleMethod
 def process_to_csv(process_df, feature, clean_csv_path):
     """ Ensemble method for processing multiple tweets in dataframe (df)
     Params:
@@ -69,5 +68,6 @@ def process_to_csv(process_df, feature, clean_csv_path):
         clean_tweet = processer.process_tweet()
         processed_df[feature][i] = clean_tweet
         
-    saved_csv = processed_df.to_csv(clean_csv_path)
-    return saved_csv
+    # save as a csv file 
+    processed_df.to_csv(clean_csv_path)
+    return processed_df
