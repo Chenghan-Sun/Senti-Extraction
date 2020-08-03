@@ -16,28 +16,9 @@ class TweetPreprocess(object):
     def process_tweet(self, ):
         """ Ensemble methods for single tweet processing 
         """
-        # Load in given tweet
-        tweet = self.tweet
-        # Convert to lower case
-        tweet = tweet.lower()
-        # Replaces URLs with the word URL
-        # TODO: May delete it later
-        tweet = re.sub(r'((www\.[\S]+)|(https?://[\S]+))', ' URL ', tweet)
-        # Replace @handle with the word USER_MENTION
-        tweet = re.sub(r'@[\S]+', 'USER_MENTION', tweet)
-        # Replaces #hashtag with hashtag
-        tweet = re.sub(r'#(\S+)', r' \1 ', tweet)
-        # Remove RT (retweet)
-        tweet = re.sub(r'\brt\b', '', tweet)
-        # Replace 2+ dots with space
-        tweet = re.sub(r'\.{2,}', ' ', tweet)
-        # Strip space, " and ' from tweet
-        tweet = tweet.strip(' "\'')
-        # Replace multiple spaces with a single space
-        tweet = re.sub(r'\s+', ' ', tweet)
-        
+        tweet=self.tweet
         # Pass processed tweet back to object
-        self.tweet = tweet
+        self.tweet = self._detect_tweet(tweet)
         
         clean_tweet = []
         words = word_tokenize(self.tweet)
@@ -45,16 +26,32 @@ class TweetPreprocess(object):
             clear_word = self._word_process(word)
             if clear_word:
                 clean_tweet.append(clear_word)
-        # Keep the cleaned words separately for further processing
+        
         clean_tweet_word=clean_tweet
-        # Combine the cleaned words
         clean_tweet_str = ' '.join(clean_tweet)
         return clean_tweet_str, clean_tweet_word
     
-    def _detect_tweet(self, ):
+    def _detect_tweet(self, tweet):
         """ 
         """ 
-        pass 
+        # Convert to lower case
+        clear_tweet = tweet.lower()
+        # Replaces URLs with the word URL
+        # TODO: May delete it later
+        clear_tweet = re.sub(r'((www\.[\S]+)|(https?://[\S]+))', ' URL ', clear_tweet)
+        # Replace @handle with the word USER_MENTION
+        clear_tweet = re.sub(r'@[\S]+', 'USER_MENTION', clear_tweet)
+        # Replaces #hashtag with hashtag
+        clear_tweet = re.sub(r'#(\S+)', r' \1 ', clear_tweet)
+        # Remove RT (retweet)
+        clear_tweet = re.sub(r'\brt\b', '', clear_tweet)
+        # Replace 2+ dots with space
+        clear_tweet = re.sub(r'\.{2,}', ' ', clear_tweet)
+        # Strip space, " and ' from tweet
+        clear_tweet = clear_tweet.strip(' "\'')
+        # Replace multiple spaces with a single space
+        clear_tweet = re.sub(r'\s+', ' ', clear_tweet)
+        return clear_tweet 
 
     def _word_process(self, word):
         """ pre-processing each word into unified type
@@ -88,7 +85,6 @@ def process_to_csv(process_df, feature, clean_csv_path):
         clean_csv_path: directory of written out csv file
     Return:
         saved_csv: csv file save to clean_csv_path
-        cleaned data used for further processng
     """
     # copy the processed df from original df 
     processed_df = process_df.copy()
