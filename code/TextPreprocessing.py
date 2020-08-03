@@ -17,14 +17,13 @@ class TweetPreprocess(object):
         """ Ensemble methods for single tweet processing 
         """
         words = word_tokenize(self.tweet)
-        words = tweet.split()
         for word in words:
-            clear_word = _word_process(word)
-        return clear_word
+            clear_word = self._word_process(word)
+            return clear_word
     
     def _detect_tweet(self, ):
         """ 
-        """
+        """ 
         pass 
 
     def _word_process(self, word):
