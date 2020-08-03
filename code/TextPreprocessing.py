@@ -3,6 +3,7 @@
 
 import re
 from nltk.tokenize import word_tokenize
+import pandas as pd
 
 class TweetPreprocess(object):
     """ Tweets Preprocessing class including additional methods for analysis
@@ -40,7 +41,17 @@ class TweetPreprocess(object):
         words = word_tokenize(self.tweet)
         for word in words:
             clear_word = self._word_process(word)
+<<<<<<< HEAD
         return clear_word
+=======
+            print(clear_word)
+        return clear_word
+    
+    def _detect_tweet(self, ):
+        """ 
+        """ 
+        pass 
+>>>>>>> ab2d544b5ac400fd2e446e24d3b36862770c134c
 
     def _word_process(self, word):
         """ pre-processing each word into unified type
@@ -62,9 +73,12 @@ class TweetPreprocess(object):
             return None
 
         
+<<<<<<< HEAD
 """
 EmsembleMethod
 """
+=======
+>>>>>>> ab2d544b5ac400fd2e446e24d3b36862770c134c
 def process_to_csv(process_df, feature, clean_csv_path):
     """ Ensemble method for processing multiple tweets in dataframe (df)
     Params:
@@ -83,6 +97,13 @@ def process_to_csv(process_df, feature, clean_csv_path):
             raise Exception('The tweet must be str!')
             
         clean_tweet = processer.process_tweet()
+<<<<<<< HEAD
         processed_df[feature][i] = clean_tweet  
         processed_df.to_csv(clean_csv_path)
+=======
+        processed_df[feature][i] = clean_tweet
+        
+    # save as a csv file 
+    processed_df.to_csv(clean_csv_path)
+>>>>>>> ab2d544b5ac400fd2e446e24d3b36862770c134c
     return processed_df
