@@ -38,20 +38,20 @@ class TweetPreprocess(object):
         
         # Pass processed tweet back to object
         self.tweet = tweet
+        
+        clean_tweet = []
         words = word_tokenize(self.tweet)
         for word in words:
             clear_word = self._word_process(word)
-<<<<<<< HEAD
-        return clear_word
-=======
-            print(clear_word)
-        return clear_word
+            clean_tweet.append(clear_word)
+            
+        clean_tweet_str = ' '.join(clean_tweet)
+        return clean_tweet_str
     
     def _detect_tweet(self, ):
         """ 
         """ 
         pass 
->>>>>>> ab2d544b5ac400fd2e446e24d3b36862770c134c
 
     def _word_process(self, word):
         """ pre-processing each word into unified type
@@ -73,12 +73,10 @@ class TweetPreprocess(object):
             return None
 
         
-<<<<<<< HEAD
 """
-EmsembleMethod
+Emsemble Method
 """
-=======
->>>>>>> ab2d544b5ac400fd2e446e24d3b36862770c134c
+
 def process_to_csv(process_df, feature, clean_csv_path):
     """ Ensemble method for processing multiple tweets in dataframe (df)
     Params:
@@ -88,6 +86,7 @@ def process_to_csv(process_df, feature, clean_csv_path):
     Return:
         saved_csv: csv file save to clean_csv_path
     """
+    # copy the processed df from original df 
     processed_df = process_df.copy()
     
     for i, tweet in enumerate(process_df[feature]):
@@ -96,14 +95,10 @@ def process_to_csv(process_df, feature, clean_csv_path):
         else:
             raise Exception('The tweet must be str!')
             
+        # call the processer class 
         clean_tweet = processer.process_tweet()
-<<<<<<< HEAD
         processed_df[feature][i] = clean_tweet  
-        processed_df.to_csv(clean_csv_path)
-=======
-        processed_df[feature][i] = clean_tweet
         
     # save as a csv file 
     processed_df.to_csv(clean_csv_path)
->>>>>>> ab2d544b5ac400fd2e446e24d3b36862770c134c
     return processed_df
