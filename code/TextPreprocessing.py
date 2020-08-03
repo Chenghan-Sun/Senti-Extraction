@@ -19,13 +19,8 @@ class TweetPreprocess(object):
         words = word_tokenize(self.tweet)
         words = tweet.split()
         for word in words:
-            clear_word = _word_process(word)
+            clear_word = self._word_process(word)
         return clear_word
-    
-    def _detect_tweet(self, ):
-        """ 
-        """
-        pass 
 
     def _word_process(self, word):
         """ pre-processing each word into unified type
@@ -38,6 +33,9 @@ class TweetPreprocess(object):
 
         # Remove - & '
         clear_word = re.sub(r'(-|\')', '', clear_word)
+        
+        # Remove http
+        clear_word = re.sub('http', '',clear_word)
         
         # check validation of the processed word 
         word_flag = re.search(r'^[a-zA-Z][a-z0-9A-Z\._]*$', clear_word)
