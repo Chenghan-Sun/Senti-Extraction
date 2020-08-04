@@ -77,7 +77,7 @@ class TweetPreprocess(object):
 Emsemble Method
 """
 
-def process_to_csv(process_df, feature, clean_csv_path):
+def process_to_csv(process_df, feature, clean_csv_path1,clean_csv_path2):
     """ Ensemble method for processing multiple tweets in dataframe (df)
     Params:
         process_df: the df to be processed
@@ -105,5 +105,6 @@ def process_to_csv(process_df, feature, clean_csv_path):
         
     # save as a csv file
     
-    processed_df.to_csv(clean_csv_path)
+    processed_df.to_csv(clean_csv_path1)
+    processed_df_tbused.to_csv(clean_csv_path2)
     return processed_df_tbused
