@@ -1,9 +1,8 @@
 import pandas as pd
-import numpy as np
 from typing import List, Tuple
 
 
-class BaseLine:
+class BaseLine(object):
     def __init__(self, dataFrame: pd.DataFrame, **corpus: List[str]) -> None:
         self.positive_corpus = self.corpus_to_set(corpus.pop('positive_corpus'))
         self.negative_corpus = self.corpus_to_set(corpus.pop('negative_corpus'))

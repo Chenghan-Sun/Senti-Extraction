@@ -3,7 +3,7 @@ import numpy as np
 
 class StaA(object):
 
-    def nGram(split_selected_word, split_selected_text, N):
+    def nGram(self, split_selected_word, split_selected_text, N):
         if N == 1:
             print('Unigram text framework')
             # remove duplicate words
