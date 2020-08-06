@@ -48,9 +48,10 @@ class StaA(object):
                         ngram_presence[o] += 1
             ngram=gram
         number_unique_term = len(ngram)
+        
+        
         return ngram, ngram_presence, ngram_frequency, number_unique_term,n_gram
         
-        return ngram, ngram_presence, ngram_frequency, number_unique_term
     
     def ranking(ngram_frequency,ngram_presence,ngram):
         frame=pd.DataFrame({'frequency':ngram_frequency,'presence':ngram_presence},index=ngram)
