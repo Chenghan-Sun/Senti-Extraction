@@ -48,14 +48,16 @@ class StaA(object):
                         ngram_presence[o] += 1
             ngram=gram
         number_unique_term = len(ngram)
-        
-        
+
         return ngram, ngram_presence, ngram_frequency, number_unique_term,n_gram
         
     
-    def ranking(ngram_frequency,ngram_presence,ngram):
+    def ranking(ngram_frequency,ngram_presence,ngram, path_frequency, path_presence):
         frame=pd.DataFrame({'frequency':ngram_frequency,'presence':ngram_presence},index=ngram)
         rank=frame.sort_values(by=['frequency'],ascending=False)
         frequency_ranking=rank['frequency']
         presence_ranking=rank['presence']
+        presence_ranking.to_csv(path_presence)
+        frequency_ranking.to_csv(path_frequency)
+        
         return frequency_ranking,presence_ranking,rank
