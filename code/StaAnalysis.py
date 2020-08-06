@@ -21,26 +21,34 @@ class StaA(object):
                     if unigram[o] in split_selected_text[l]:
                         unigram_presence[o] += 1
             ngram = unigram
+            n_gram=unigram
             ngram_presence = unigram_presence
             ngram_frequency = unigram_frequency
         else:
             print(f"{N}-gram text frame work")
+            n_gram=[]
             ngram = []
             # classify the data by N words in one unit
             for k in range(len(split_selected_text)):
+                n_gram.append([])
                 for m in range(0, len(split_selected_text[k]) - (N - 1)):
                     string = split_selected_text[k][m]
                     for g in range(1, N):
                         string = string + " " + split_selected_text[k][m + g]
                     ngram.append(str(string))
+                    n_gram[k].append(str(string))
             gram = list(set(ngram))
             ngram_frequency = []
-            ngram_presence = 'not applicable'
+            ngram_presence = np.zeros(len(gram))
             # count the frequency
             for o in range(len(gram)):
                 ngram_frequency.append(ngram.count(gram[o]))
+                for l in range(len(n_gram)):
+                    if ngram[o] in n_gram[l]:
+                        ngram_presence[o] += 1
             ngram=gram
         number_unique_term = len(ngram)
+        return ngram, ngram_presence, ngram_frequency, number_unique_term,n_gram
         
         return ngram, ngram_presence, ngram_frequency, number_unique_term
     
@@ -49,4 +57,4 @@ class StaA(object):
         rank=frame.sort_values(by=['frequency'],ascending=False)
         frequency_ranking=rank['frequency']
         presence_ranking=rank['presence']
-        return frequency_ranking,presence_ranking
+        return frequency_ranking,presence_ranking,rank
