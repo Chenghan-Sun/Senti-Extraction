@@ -1,9 +1,12 @@
 import numpy as np
-
+import pandas as pd
+import matplotlib.pyplot as plt
 
 class StaA(object):
-
-    def nGram(self, split_selected_word, split_selected_text, N):
+    '''will figure out how to add "self" later
+    '''
+    
+    def nGram(split_selected_word, split_selected_text, N):
         if N == 1:
             print('Unigram text framework')
             # remove duplicate words
@@ -17,9 +20,9 @@ class StaA(object):
                 for l in range(len(split_selected_text)):
                     if unigram[o] in split_selected_text[l]:
                         unigram_presence[o] += 1
-            gram = unigram
-            presence = unigram_presence
-            frequency = unigram_frequency
+            ngram = unigram
+            ngram_presence = unigram_presence
+            ngram_frequency = unigram_frequency
         else:
             print(f"{N}-gram text frame work")
             ngram = []
@@ -36,7 +39,14 @@ class StaA(object):
             # count the frequency
             for o in range(len(gram)):
                 ngram_frequency.append(ngram.count(gram[o]))
-            presence = ngram_presence
-            frequency = ngram_frequency
-        number_unique_term = len(gram)
-        return gram, presence, frequency, number_unique_term
+            ngram=gram
+        number_unique_term = len(ngram)
+        
+        return ngram, ngram_presence, ngram_frequency, number_unique_term
+    
+    def ranking(ngram_frequency,ngram_presence,ngram):
+        frame=pd.DataFrame({'frequency':ngram_frequency,'presence':ngram_presence},index=ngram)
+        rank=frame.sort_values(by=['frequency'],ascending=False)
+        frequency_ranking=rank['frequency']
+        presence_ranking=rank['presence']
+        return frequency_ranking,presence_ranking
