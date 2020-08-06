@@ -1,11 +1,25 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from nltk.tokenize import word_tokenize
 
 class StaA(object):
     '''will figure out how to add "self" later
     '''
-    
+    def filter_out(data_path):
+        selected_text=pd.read_csv(data_path)
+        selected_text=selected_text['selected_text'].apply(str)
+        split_selected_text=[]
+        split_selected_word=[]
+        for i in range(len(selected_text)):
+            split_selected_text.append(word_tokenize(selected_text[i]))
+            for j in split_selected_text[i]:
+                split_selected_word.append(j)
+        return split_selected_text, split_selected_word
+        
+        
+        
+        
     def nGram(split_selected_word, split_selected_text, N):
         if N == 1:
             print('Unigram text framework')
