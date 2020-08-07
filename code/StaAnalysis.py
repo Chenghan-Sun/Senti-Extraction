@@ -9,13 +9,14 @@ class StaA(object):
     def filter_out(data_path):
         selected_text=pd.read_csv(data_path)
         selected_text=selected_text['selected_text'].apply(str)
+        n_document=len(selected_text)
         split_selected_text=[]
         split_selected_word=[]
         for i in range(len(selected_text)):
             split_selected_text.append(word_tokenize(selected_text[i]))
             for j in split_selected_text[i]:
                 split_selected_word.append(j)
-        return split_selected_text, split_selected_word
+        return split_selected_text, split_selected_word,n_document
         
         
         
@@ -66,11 +67,18 @@ class StaA(object):
         return ngram, ngram_presence, ngram_frequency, number_unique_term,n_gram
         
     
-    def ranking(ngram_frequency,ngram_presence,ngram, path_rank):
-        frame=pd.DataFrame({'frequency':ngram_frequency,'presence':ngram_presence},index=ngram)
+    def ranking(ngram_frequency,ngram_presence,n_document,ngram,path_rank):
+        idf=[]
+        tf_idf=[]
+        for i in range(len(ngram)):
+            idf.append(np.log((1+n_document)/(1+ngram_presence[i]))+1)
+            tf_idf.append(ngram_frequency[i]*idf[i])
+        frame=pd.DataFrame({'frequency':ngram_frequency,'presence':ngram_presence,'idf':idf,'tf-idf':tf_idf},index=ngram)
         rank=frame.sort_values(by=['frequency'],ascending=False)
+        idf_ranking=rank['idf']
+        tf_idf_ranking=rank['tf-idf']
         frequency_ranking=rank['frequency']
         presence_ranking=rank['presence']
         rank.to_csv(path_rank)
         
-        return frequency_ranking,presence_ranking,rank
+        return frequency_ranking,presence_ranking,idf_ranking,tf_idf_ranking,rank
